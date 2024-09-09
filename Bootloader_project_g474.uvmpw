@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<ProjectWorkspace xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="project_mpw.xsd">
+
+  <SchemaVersion>1.0</SchemaVersion>
+
+  <Header>### uVision Project, (C) Keil Software</Header>
+
+  <WorkspaceName>E:\self learning\Udemy\CUSTOM BOOTLOADER FOR STM32\bootloader repo Pranav\Bootloader_project_g474.uvmpw</WorkspaceName>
+
+  <project>
+    <PathAndName>.\custom_bootloader_g474\MDK-ARM\custom_bootloader_g474.uvprojx</PathAndName>
+    <NodeIsActive>1</NodeIsActive>
+  </project>
+
+  <project>
+    <PathAndName>.\keil_demo_blinky_cubemx\MDK-ARM\stm32g4_blinky.uvprojx</PathAndName>
+  </project>
+
+</ProjectWorkspace>
