@@ -33,11 +33,13 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+#define FLASH_BASE_ADDRESS_USER_APP 0x08008000
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+void bl_jump_to_user_application(void);
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -93,7 +95,16 @@ int main(void)
   MX_LPUART1_UART_Init();
   MX_CRC_Init();
   /* USER CODE BEGIN 2 */
-
+	if(HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin) == GPIO_PIN_SET)
+	{
+		debug_print("Wait for new firmware\r\n");
+		//bl_wait_for_uart_data();
+	}
+	else
+	{
+		debug_print("Jump to user applicaiton\r\n");
+		bl_jump_to_user_application();
+	}
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -101,10 +112,10 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-		debug_print("Pranav Vasudevan \r\n");
-		uint32_t current_time = HAL_GetTick();
-		debug_print("current time = %d\r\n", &current_time);
-		while(HAL_GetTick()< current_time +1000);
+//		debug_print("Pranav Vasudevan \r\n");
+//		uint32_t current_time = HAL_GetTick();
+//		debug_print("current time = %d\r\n", &current_time);
+//		while(HAL_GetTick()< current_time +1000);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -155,6 +166,28 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+//jump to user application
+void bl_jump_to_user_application(void)
+{
+	//function to handler the address of the resethandler of the userapp
+	void (*app_reset_handler)(void);
+	debug_print("Jumping to user application\r\n");
+	
+	//get the msp addrss from the start of the userapp flash address. it is 32 bit long
+	uint32_t msp_value = *(volatile uint32_t *) FLASH_BASE_ADDRESS_USER_APP;
+	
+	//use cmsis apis to set the msp 
+	__set_MSP(msp_value);
+	
+	//get the reset handler address
+	uint32_t reset_handler_user_address = *(volatile uint32_t *) (FLASH_BASE_ADDRESS_USER_APP + 4);
+	
+	//init the function pointer with the reset handler address of the user app
+	app_reset_handler = (void*)reset_handler_user_address;
+	
+	// jump to the user application
+	app_reset_handler();
+}
 
 /* USER CODE END 4 */
 

@@ -3,7 +3,7 @@
   ******************************************************************************
   * @file           : main.c
   * @brief          : Main program body
-  ******************************************************************************
+  ************************************************************************	
   * @attention
   *
   * Copyright (c) 2024 STMicroelectronics.
@@ -85,7 +85,14 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
-
+//if ((FLASH->OPTR & FLASH_OPTR_DBANK) != 0) 
+//{
+//	int a =1;
+//    // Dual bank mode
+//} else 
+//{
+//    // Single bank mode
+//}
   /* USER CODE END 2 */
 
   /* Infinite loop */
